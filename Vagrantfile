@@ -27,6 +27,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       env: { :RIAK_VERSION => "2.0.5" }
   end
 
+  config.vm.define "riak_2.0.7" do |riak|
+    riak.vm.provision "riak", type: "shell", path: "bin/provision_riak_2.sh", 
+      env: { :RIAK_VERSION => "2.0.7" }
+  end
+
   # config.vm.define "riak_2.1.1" do |riak|
   #   riak.vm.provision "riak", type: "shell", path: "bin/provision_riak_2.sh", 
   #     env: { :RIAK_VERSION => "2.1.1" }
@@ -56,6 +61,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define "riak-ee_2.0.6" do |riak|
     riak.vm.provision "riak", type: "shell", path: "bin/provision_riak-ee_2.0.6.sh"
+    riak.vm.hostname = "node1.riak.local"
+  end
+
+  config.vm.define "riak-ee_2.0.7" do |riak|
+    riak.vm.provision "riak", type: "shell", path: "bin/provision_riak-ee_2.0.7.sh"
     riak.vm.hostname = "node1.riak.local"
   end
 
