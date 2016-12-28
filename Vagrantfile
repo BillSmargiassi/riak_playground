@@ -87,6 +87,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     riak.vm.provision "riak", type: "shell", path: "bin/provision_riak-ts_1.3.0.sh"
   end
 
+  config.vm.define "riak-ts_1.4.0" do |riak|
+    riak.vm.provision "riak", type: "shell", path: "bin/provision_riak-ts_1.4.0.sh"
+  end
+
+  config.vm.define "riak-ts_1.5.0" do |riak|
+    riak.vm.provision "riak", type: "shell", path: "bin/provision_riak-ts_1.5.0.sh"
+  end
+
 ## Riak CS
 
   config.vm.define "riak-cs_1.4.5" do |riakcs|
