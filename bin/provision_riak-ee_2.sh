@@ -1,25 +1,25 @@
 #! /bin/bash
 source /vagrant/bin/provision_helper.sh
 
-# provision_riak -- Installs and configures Riak as a cluster of 1
+# provision_riak-ee -- Installs and configures Riak as a cluster of 1
 
-RIAK_VERSION_MAJOR_MINOR=`echo ${RIAK_VERSION} | awk -F'.' '{print $1"."$2}'`
-RIAK_EE_HASH=""
+RPM_PATH="/vagrant/data/rpmcache/riak-ee-${RIAK_VERSION}-1.el6.x86_64.rpm"
 
-RIAK_RPM_PATH="/vagrant/data/rpmcache/riak-${RIAK_VERSION}-1.el6.x86_64.rpm"
-PACKAGE_URL="http://s3.amazonaws.com/downloads.basho.com/riak/${RIAK_VERSION_MAJOR_MINOR}/${RIAK_VERSION}/rhel/6/riak-${RIAK_VERSION}-1.el6.x86_64.rpm"
+
+
+
 
 echo "Installing Riak $RIAK_VERSION..."
 
 echo "* Checking for cached components"
-if [ ! -f "${RIAK_RPM_PATH}" ] 
+if [ ! -f "${RPM_PATH}" ] 
   then
-    echo "   - Downloading Riak $RIAK_VERSION Package into cache"
-    wget -q --output-document=${RIAK_RPM_PATH} ${PACKAGE_URL}
+    echo "ERROR: Please download riak-ee-${RIAK_VERSION}-1.el6.x86_64.rpm and place into data/rpmcache"
+    exit 1
 fi
 
 echo "* Installing Riak Package"
-yum -y --nogpgcheck --noplugins localinstall ${RIAK_RPM_PATH}
+yum -y --nogpgcheck --noplugins localinstall ${RPM_PATH}
 
 if [ ! -d "/etc/riak" ] 
   then
@@ -51,7 +51,7 @@ echo ""
 echo "* Configuring node as riak@$IP_ADDRESS "
 echo '
 # Added by Vagrant Provisioning Script'  >> /etc/riak/riak.conf
-echo "nodename = riak@$IP_ADDRESS" >> /etc/riak/riak.conf
+echo "nodename = riak@${IP_ADDRESS}" >> /etc/riak/riak.conf
 echo "listener.http.provisioned = ${IP_ADDRESS}:8098" >> /etc/riak/riak.conf
 
 insert_attribute riak riak@$IP_ADDRESS
